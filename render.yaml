@@ -1,0 +1,36 @@
+services:
+  - type: web
+    name: maala-clothing-backend
+    runtime: java
+    rootDir: backend
+    buildCommand: ./mvnw clean package -DskipTests
+    startCommand: java -Xmx400m -jar target/shop-backend-1.0.0.jar
+    plan: free
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: FRONTEND_URL
+        value: https://maalaclothing.is-a.dev
+      - key: APP_BASE_URL
+        fromService:
+          type: web
+          name: maala-clothing-backend
+          property: host
+      - key: CLOUDINARY_CLOUD_NAME
+        sync: false
+      - key: CLOUDINARY_API_KEY
+        sync: false
+      - key: CLOUDINARY_API_SECRET
+        sync: false
+      - key: CALLMEBOT_PHONE
+        sync: false
+      - key: CALLMEBOT_API_KEY
+        sync: false
+      - key: APP_ADMIN_EMAIL
+        sync: false
+      - key: APP_ADMIN_PASSWORD
+        sync: false

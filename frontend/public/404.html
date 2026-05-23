@@ -2,14 +2,16 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Redirecting...</title>
+  <title>Maala Clothing</title>
   <script>
+    // Single-page app routing for GitHub Pages (project site).
+    // Keep one segment ("/maala-clothing") so we redirect into the SPA index.
+    var pathSegmentsToKeep = 1;
     var l = window.location;
     l.replace(
       l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-      l.pathname.split('/').slice(0, 1).join('/') +
-      '/?/' +
-      l.pathname.slice(1).replace(/&/g, '~and~') +
+      l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
+      l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
       (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
       l.hash
     );

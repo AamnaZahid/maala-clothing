@@ -1,6 +1,7 @@
 databases:
   - name: maala-clothing-db
     plan: free
+    region: singapore
     databaseName: maala
     user: maala_admin
 

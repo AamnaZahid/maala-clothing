@@ -65,9 +65,9 @@ export default function Login() {
   return (
     <div className="flex min-h-[60vh] items-center justify-center px-4 py-12">
       <div className="w-full max-w-md rounded-xl bg-white p-8 shadow-sm">
-        <h1 className="mb-2 text-2xl font-bold text-[#4F1529]">Login</h1>
+        <h1 className="mb-2 text-2xl font-bold text-[#4F1529]">Admin Jiya — Sign In</h1>
         <p className="mb-6 text-sm text-gray-500">
-          Sign in to your Maala Clothing account or as the shop admin.
+          This is the shop owner area. Customers can browse and order without an account.
         </p>
 
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -77,8 +77,7 @@ export default function Login() {
         </form>
 
         <p className="mt-4 text-center text-sm text-gray-500">
-          Don&apos;t have an account?{' '}
-          <Link to="/register" className="font-medium text-rose-600 hover:text-rose-700">Register</Link>
+          <Link to="/" className="font-medium text-[#6B1D3A] hover:text-[#4F1529]">← Back to shop</Link>
         </p>
       </div>
 

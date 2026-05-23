@@ -34,6 +34,9 @@ public class Product {
     @Column(name = "discounted_price", precision = 12, scale = 2)
     private BigDecimal discountedPrice;
 
+    @Column(name = "cost_price", precision = 12, scale = 2)
+    private BigDecimal costPrice;
+
     @Column(name = "stock_quantity", nullable = false)
     @Builder.Default
     private Integer stockQuantity = 0;

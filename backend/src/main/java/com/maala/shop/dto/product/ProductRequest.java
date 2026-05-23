@@ -21,6 +21,9 @@ public class ProductRequest {
 
     private BigDecimal discountedPrice;
 
+    @DecimalMin(value = "0.0", inclusive = true, message = "Cost price cannot be negative")
+    private BigDecimal costPrice;
+
     @NotNull(message = "Stock quantity is required")
     @Min(value = 0, message = "Stock cannot be negative")
     private Integer stockQuantity;

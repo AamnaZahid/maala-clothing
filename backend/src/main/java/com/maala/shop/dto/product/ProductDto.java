@@ -20,6 +20,7 @@ public class ProductDto {
     private BigDecimal price;
     private BigDecimal discountedPrice;
     private BigDecimal effectivePrice;
+    private BigDecimal costPrice;
     private Integer stockQuantity;
     private List<String> imageUrls;
     private Long categoryId;

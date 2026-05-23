@@ -42,7 +42,7 @@ public class DataSeeder implements CommandLineRunner {
     private void seedAdmin() {
         if (!userRepository.existsByRole(Role.ADMIN)) {
             userRepository.save(User.builder()
-                    .name("Admin")
+                    .name("Jiya")
                     .email("admin@shop.com")
                     .phone("923094094776")
                     .role(Role.ADMIN)
@@ -50,7 +50,14 @@ public class DataSeeder implements CommandLineRunner {
                     .mustChangePassword(true)
                     .build());
             log.warn("Dev admin created: admin@shop.com — change password after first login");
+            return;
         }
+        userRepository.findAll().forEach(u -> {
+            if (u.getRole() == Role.ADMIN && ("Admin".equals(u.getName()) || u.getName() == null || u.getName().isBlank())) {
+                u.setName("Jiya");
+                userRepository.save(u);
+            }
+        });
     }
 
     private void seedCategoriesAndProducts() {
@@ -99,11 +106,13 @@ public class DataSeeder implements CommandLineRunner {
                              String image, boolean featured, int stock) {
         BigDecimal p = new BigDecimal(price);
         BigDecimal d = discount != null ? new BigDecimal(discount) : null;
+        BigDecimal cost = p.multiply(new BigDecimal("0.55")).setScale(2, java.math.RoundingMode.HALF_UP);
         productRepository.save(Product.builder()
                 .name(name)
                 .description(desc)
                 .price(p)
                 .discountedPrice(d)
+                .costPrice(cost)
                 .stockQuantity(stock)
                 .imageUrls(List.of(image))
                 .category(cat)

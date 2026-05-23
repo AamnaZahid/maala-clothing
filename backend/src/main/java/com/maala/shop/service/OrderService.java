@@ -66,6 +66,7 @@ public class OrderService {
                     .quantity(itemReq.getQuantity())
                     .unitPrice(unitPrice)
                     .subtotal(subtotal)
+                    .costAtPurchase(product.getCostPrice())
                     .build();
             orderItems.add(orderItem);
 

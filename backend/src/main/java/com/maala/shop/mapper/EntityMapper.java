@@ -45,6 +45,7 @@ public final class EntityMapper {
                 .price(product.getPrice())
                 .discountedPrice(product.getDiscountedPrice())
                 .effectivePrice(product.getEffectivePrice())
+                .costPrice(product.getCostPrice())
                 .stockQuantity(product.getStockQuantity())
                 .imageUrls(product.getImageUrls())
                 .categoryId(product.getCategory() != null ? product.getCategory().getId() : null)
@@ -68,6 +69,7 @@ public final class EntityMapper {
                 .quantity(item.getQuantity())
                 .unitPrice(item.getUnitPrice())
                 .subtotal(item.getSubtotal())
+                .costAtPurchase(item.getCostAtPurchase())
                 .build();
     }
 

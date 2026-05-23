@@ -34,4 +34,13 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             @Param("minPrice") java.math.BigDecimal minPrice,
             @Param("maxPrice") java.math.BigDecimal maxPrice,
             Pageable pageable);
+
+    @Query("""
+        SELECT COALESCE(SUM(COALESCE(p.costPrice, 0) * p.stockQuantity), 0)
+        FROM Product p WHERE p.isActive = true
+        """)
+    java.math.BigDecimal sumInventoryValueAtCost();
+
+    @Query("SELECT COALESCE(SUM(p.stockQuantity), 0) FROM Product p WHERE p.isActive = true")
+    Long sumStockOnHand();
 }

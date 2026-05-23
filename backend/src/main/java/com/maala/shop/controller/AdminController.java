@@ -8,14 +8,19 @@ import com.maala.shop.dto.dashboard.DashboardStatsDto;
 import com.maala.shop.dto.order.*;
 import com.maala.shop.dto.product.ProductDto;
 import com.maala.shop.dto.product.ProductRequest;
+import com.maala.shop.dto.report.ReportSummaryDto;
 import com.maala.shop.dto.settings.PaymentAccountDto;
 import com.maala.shop.dto.settings.PaymentAccountRequest;
 import com.maala.shop.dto.settings.SiteSettingsDto;
 import com.maala.shop.dto.settings.SiteSettingsRequest;
+import com.maala.shop.dto.stock.StockPurchaseDto;
+import com.maala.shop.dto.stock.StockPurchaseRequest;
 import com.maala.shop.entity.OrderStatus;
 import com.maala.shop.service.OrderService;
 import com.maala.shop.service.ProductService;
+import com.maala.shop.service.ReportService;
 import com.maala.shop.service.SettingsService;
+import com.maala.shop.service.StockPurchaseService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +37,8 @@ public class AdminController {
     private final ProductService productService;
     private final OrderService orderService;
     private final SettingsService settingsService;
+    private final ReportService reportService;
+    private final StockPurchaseService stockPurchaseService;
 
     @GetMapping("/dashboard/stats")
     public ResponseEntity<ApiResponse<DashboardStatsDto>> dashboardStats() {
@@ -171,5 +178,40 @@ public class AdminController {
     public ResponseEntity<ApiResponse<Void>> deletePaymentAccount(@PathVariable Long id) {
         settingsService.deletePaymentAccount(id);
         return ResponseEntity.ok(ApiResponse.success("Account deleted", null));
+    }
+
+    @GetMapping("/reports/summary")
+    public ResponseEntity<ApiResponse<ReportSummaryDto>> reportSummary(
+            @RequestParam(defaultValue = "month") String range,
+            @RequestParam(required = false) Integer year,
+            @RequestParam(required = false) Integer month) {
+        ReportSummaryDto data;
+        if ("lifetime".equalsIgnoreCase(range)) {
+            data = reportService.lifetime();
+        } else if (year != null && month != null) {
+            data = reportService.monthly(year, month);
+        } else {
+            data = reportService.thisMonth();
+        }
+        return ResponseEntity.ok(ApiResponse.success(data));
+    }
+
+    @GetMapping("/stock-purchases")
+    public ResponseEntity<ApiResponse<PageResponse<StockPurchaseDto>>> stockPurchases(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size) {
+        return ResponseEntity.ok(ApiResponse.success(stockPurchaseService.list(page, size)));
+    }
+
+    @PostMapping("/stock-purchases")
+    public ResponseEntity<ApiResponse<StockPurchaseDto>> recordStockPurchase(
+            @Valid @RequestBody StockPurchaseRequest request) {
+        return ResponseEntity.ok(ApiResponse.success("Stock purchase recorded", stockPurchaseService.record(request)));
+    }
+
+    @DeleteMapping("/stock-purchases/{id}")
+    public ResponseEntity<ApiResponse<Void>> deleteStockPurchase(@PathVariable Long id) {
+        stockPurchaseService.delete(id);
+        return ResponseEntity.ok(ApiResponse.success("Stock purchase removed", null));
     }
 }

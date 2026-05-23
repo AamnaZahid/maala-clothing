@@ -1,6 +1,6 @@
 import { Link, Navigate, Outlet, useLocation } from 'react-router-dom';
 import {
-  LayoutDashboard, Package, ShoppingCart, Tags, Settings, LogOut, Menu, X,
+  LayoutDashboard, Package, ShoppingCart, Tags, Settings, LogOut, Menu, X, TrendingUp,
 } from 'lucide-react';
 import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
@@ -8,6 +8,7 @@ import { loginPath } from '../../utils/assetUrl';
 
 const navItems = [
   { to: '/admin', icon: LayoutDashboard, label: 'Dashboard', end: true },
+  { to: '/admin/reports', icon: TrendingUp, label: 'Reports' },
   { to: '/admin/orders', icon: ShoppingCart, label: 'Orders' },
   { to: '/admin/products', icon: Package, label: 'Products' },
   { to: '/admin/categories', icon: Tags, label: 'Categories' },
@@ -35,9 +36,12 @@ export function AdminLayout() {
 
   return (
     <div className="flex min-h-screen bg-gray-100 print:block print:min-h-0 print:bg-white">
-      <aside className={`no-print fixed inset-y-0 left-0 z-50 w-64 transform bg-gray-900 text-white transition-transform lg:static lg:translate-x-0 print:hidden ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-        <div className="flex items-center justify-between border-b border-gray-800 p-4">
-          <span className="font-semibold">Maala Admin</span>
+      <aside className={`no-print fixed inset-y-0 left-0 z-50 w-64 transform bg-[#4F1529] text-white transition-transform lg:static lg:translate-x-0 print:hidden ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+        <div className="flex items-center justify-between border-b border-[#6B1D3A] p-4">
+          <div className="flex flex-col leading-tight">
+            <span className="font-semibold text-white">Admin Jiya</span>
+            <span className="text-[10px] uppercase tracking-wider text-[#C9A962]">Maala Clothing</span>
+          </div>
           <button className="lg:hidden" onClick={() => setSidebarOpen(false)}>
             <X className="h-5 w-5" />
           </button>
@@ -51,8 +55,8 @@ export function AdminLayout() {
               onClick={() => setSidebarOpen(false)}
               className={`mb-1 flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition ${
                 (end ? location.pathname === to : location.pathname.startsWith(to))
-                  ? 'bg-rose-600 text-white'
-                  : 'text-gray-300 hover:bg-gray-800'
+                  ? 'bg-[#C9A962] text-[#4F1529] font-semibold'
+                  : 'text-white/80 hover:bg-[#6B1D3A]'
               }`}
             >
               <Icon className="h-4 w-4" />
@@ -72,7 +76,7 @@ export function AdminLayout() {
             <Menu className="h-5 w-5" />
           </button>
           <div className="flex items-center gap-4 ml-auto">
-            <span className="text-sm text-gray-600">Welcome, {user.name}</span>
+            <span className="text-sm text-gray-600">Welcome, <span className="font-semibold text-[#4F1529]">{user.name}</span></span>
             <button onClick={handleLogout} className="flex items-center gap-1 text-sm text-red-600 hover:text-red-700">
               <LogOut className="h-4 w-4" /> Logout
             </button>

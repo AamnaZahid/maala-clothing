@@ -90,6 +90,11 @@ public class DevCatalogImageUpdater implements CommandLineRunner {
                 img = CatalogImageConstants.LAWN_2;
             }
             product.setImageUrls(List.of(img));
+            if (product.getCostPrice() == null && product.getPrice() != null) {
+                product.setCostPrice(product.getPrice()
+                        .multiply(new BigDecimal("0.55"))
+                        .setScale(2, java.math.RoundingMode.HALF_UP));
+            }
             productRepository.save(product);
         }
     }

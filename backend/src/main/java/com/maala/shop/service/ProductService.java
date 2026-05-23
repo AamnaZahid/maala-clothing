@@ -169,6 +169,7 @@ public class ProductService {
         product.setDescription(request.getDescription());
         product.setPrice(request.getPrice());
         product.setDiscountedPrice(request.getDiscountedPrice());
+        product.setCostPrice(request.getCostPrice());
         product.setStockQuantity(request.getStockQuantity());
         product.setImageUrls(request.getImageUrls());
         product.setCategory(category);

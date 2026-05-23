@@ -36,7 +36,7 @@ public class ProdAdminBootstrap implements CommandLineRunner {
             return;
         }
         userRepository.save(User.builder()
-                .name("Admin")
+                .name("Jiya")
                 .email(adminEmail.trim())
                 .role(Role.ADMIN)
                 .passwordHash(passwordEncoder.encode(adminPassword))

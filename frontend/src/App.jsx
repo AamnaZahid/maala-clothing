@@ -13,7 +13,6 @@ import Checkout from './pages/Checkout';
 import OrderPlaced from './pages/OrderPlaced';
 import OrderTracking from './pages/OrderTracking';
 import Login from './pages/Login';
-import Register from './pages/Register';
 import Dashboard from './pages/admin/Dashboard';
 import OrdersList from './pages/admin/OrdersList';
 import OrderDetail from './pages/admin/OrderDetail';
@@ -21,6 +20,7 @@ import ProductsList from './pages/admin/ProductsList';
 import ProductForm from './pages/admin/ProductForm';
 import Categories from './pages/admin/Categories';
 import Settings from './pages/admin/Settings';
+import Reports from './pages/admin/Reports';
 import NotFound from './pages/NotFound';
 
 const queryClient = new QueryClient({
@@ -45,11 +45,11 @@ export default function App() {
                 <Route path="/order-placed/:orderNumber" element={<OrderPlaced />} />
                 <Route path="/track" element={<OrderTracking />} />
                 <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
               </Route>
 
               <Route path="/admin" element={<AdminLayout />}>
                 <Route index element={<Dashboard />} />
+                <Route path="reports" element={<Reports />} />
                 <Route path="orders" element={<OrdersList />} />
                 <Route path="orders/:id" element={<OrderDetail />} />
                 <Route path="products" element={<ProductsList />} />

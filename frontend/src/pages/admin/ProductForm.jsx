@@ -22,6 +22,7 @@ const schema = z.object({
   description: z.string().optional(),
   price: z.coerce.number().min(1, 'Price required'),
   discountedPrice: z.coerce.number().optional().nullable(),
+  costPrice: z.coerce.number().min(0).optional().nullable(),
   stockQuantity: z.coerce.number().min(0),
   isActive: z.boolean(),
   isFeatured: z.boolean(),
@@ -52,6 +53,7 @@ export default function ProductForm() {
         description: product.description || '',
         price: product.price,
         discountedPrice: product.discountedPrice,
+        costPrice: product.costPrice,
         stockQuantity: product.stockQuantity,
         isActive: product.isActive,
         isFeatured: product.isFeatured,
@@ -106,6 +108,7 @@ export default function ProductForm() {
     const payload = {
       ...data,
       discountedPrice: data.discountedPrice || null,
+      costPrice: data.costPrice || null,
       imageUrls: images,
       sizes,
       colors,
@@ -157,11 +160,23 @@ export default function ProductForm() {
         </div>
 
         <div className="grid grid-cols-2 gap-4">
-          <Input label="Price (PKR)" type="number" {...register('price')} error={errors.price?.message} />
+          <Input label="Selling Price (PKR)" type="number" {...register('price')} error={errors.price?.message} />
           <Input label="Discounted Price (optional)" type="number" {...register('discountedPrice')} />
         </div>
 
-        <Input label="Stock Quantity" type="number" {...register('stockQuantity')} error={errors.stockQuantity?.message} />
+        <div className="grid grid-cols-2 gap-4">
+          <Input
+            label="Cost Price (your buying price)"
+            type="number"
+            step="0.01"
+            {...register('costPrice')}
+            error={errors.costPrice?.message}
+          />
+          <Input label="Stock Quantity" type="number" {...register('stockQuantity')} error={errors.stockQuantity?.message} />
+        </div>
+        <p className="-mt-2 text-xs text-gray-500">
+          Cost price is used to calculate your profit. Only you can see it.
+        </p>
 
         <div>
           <p className="mb-2 text-sm font-medium">Sizes</p>

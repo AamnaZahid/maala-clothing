@@ -73,21 +73,13 @@ export function Navbar({ shopName = 'Maala Clothing' }) {
               )}
             </button>
 
-            {user ? (
+            {user && isAdmin && (
               <Link
-                to={isAdmin ? '/admin' : '/products'}
-                className="inline-flex items-center gap-1.5 rounded-full bg-[#6B1D3A]/10 px-3 py-2 text-xs font-medium text-[#6B1D3A] hover:bg-[#6B1D3A]/20 sm:px-4 sm:text-sm"
-              >
-                <User className="h-4 w-4" />
-                <span className="hidden sm:inline">{isAdmin ? 'Admin' : 'Account'}</span>
-              </Link>
-            ) : (
-              <Link
-                to="/login"
+                to="/admin"
                 className="inline-flex items-center gap-1.5 rounded-full bg-[#6B1D3A] px-3 py-2 text-xs font-medium text-white shadow-sm transition hover:bg-[#4F1529] sm:px-4 sm:text-sm"
               >
                 <User className="h-4 w-4" />
-                <span className="hidden sm:inline">Login</span>
+                <span className="hidden sm:inline">Admin Jiya</span>
               </Link>
             )}
 
@@ -113,16 +105,14 @@ export function Navbar({ shopName = 'Maala Clothing' }) {
                 {l.label}
               </Link>
             ))}
-            {user ? (
+            {user && isAdmin && (
               <Link
-                to={isAdmin ? '/admin' : '/products'}
+                to="/admin"
                 className="block py-2.5 font-medium text-[#6B1D3A]"
                 onClick={() => setMenuOpen(false)}
               >
-                {isAdmin ? 'Admin Panel' : 'My Account'}
+                Admin Jiya
               </Link>
-            ) : (
-              <Link to="/login" className="block py-2.5 font-medium text-[#6B1D3A]" onClick={() => setMenuOpen(false)}>Login</Link>
             )}
           </div>
         )}

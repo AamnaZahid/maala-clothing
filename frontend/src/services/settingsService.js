@@ -100,4 +100,22 @@ export const adminService = {
   deletePaymentAccount: async (id) => {
     await api.delete(`/api/admin/payment-accounts/${id}`);
   },
+  getReport: async ({ range = 'month', year, month } = {}) => {
+    const params = { range };
+    if (year) params.year = year;
+    if (month) params.month = month;
+    const { data } = await api.get('/api/admin/reports/summary', { params });
+    return data.data;
+  },
+  getStockPurchases: async (page = 0, size = 20) => {
+    const { data } = await api.get('/api/admin/stock-purchases', { params: { page, size } });
+    return data.data;
+  },
+  recordStockPurchase: async (payload) => {
+    const { data } = await api.post('/api/admin/stock-purchases', payload);
+    return data.data;
+  },
+  deleteStockPurchase: async (id) => {
+    await api.delete(`/api/admin/stock-purchases/${id}`);
+  },
 };

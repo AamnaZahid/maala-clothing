@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { Search, ShoppingBag, Menu, X, User } from 'lucide-react';
+import { Search, ShoppingBag, Menu, X, User, Lock } from 'lucide-react';
 import { useState } from 'react';
 import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
@@ -73,13 +73,22 @@ export function Navbar({ shopName = 'Maala Clothing' }) {
               )}
             </button>
 
-            {user && isAdmin && (
+            {user && isAdmin ? (
               <Link
                 to="/admin"
                 className="inline-flex items-center gap-1.5 rounded-full bg-[#6B1D3A] px-3 py-2 text-xs font-medium text-white shadow-sm transition hover:bg-[#4F1529] sm:px-4 sm:text-sm"
               >
                 <User className="h-4 w-4" />
                 <span className="hidden sm:inline">Admin Jiya</span>
+              </Link>
+            ) : (
+              <Link
+                to="/login"
+                title="Shop owner sign in"
+                aria-label="Admin sign in"
+                className="rounded-full p-2.5 text-[#4F1529]/70 transition hover:bg-[#F3EBE4] hover:text-[#6B1D3A]"
+              >
+                <Lock className="h-5 w-5" />
               </Link>
             )}
 
@@ -105,13 +114,21 @@ export function Navbar({ shopName = 'Maala Clothing' }) {
                 {l.label}
               </Link>
             ))}
-            {user && isAdmin && (
+            {user && isAdmin ? (
               <Link
                 to="/admin"
                 className="block py-2.5 font-medium text-[#6B1D3A]"
                 onClick={() => setMenuOpen(false)}
               >
                 Admin Jiya
+              </Link>
+            ) : (
+              <Link
+                to="/login"
+                className="mt-2 flex items-center gap-2 border-t border-[#E8D5A8]/40 pt-3 text-sm text-[#4F1529]/70"
+                onClick={() => setMenuOpen(false)}
+              >
+                <Lock className="h-4 w-4" /> Shop owner sign in
               </Link>
             )}
           </div>

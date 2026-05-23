@@ -11,16 +11,19 @@ import com.maala.shop.exception.AppException;
 import com.maala.shop.mapper.EntityMapper;
 import com.maala.shop.repository.CategoryRepository;
 import com.maala.shop.repository.ProductRepository;
+import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,10 +38,10 @@ public class ProductService {
     public PageResponse<ProductDto> getProducts(Long categoryId, String search, BigDecimal minPrice,
                                                  BigDecimal maxPrice, int page, int size, String sort) {
         Pageable pageable = buildPageable(page, size, sort);
-        Page<Product> products = productRepository.searchProducts(categoryId, search, minPrice, maxPrice, pageable);
+        Specification<Product> spec = buildProductSpec(categoryId, search, minPrice, maxPrice);
+        Page<Product> products = productRepository.findAll(spec, pageable);
 
         List<ProductDto> content = products.getContent().stream()
-                .filter(Product::getIsActive)
                 .map(EntityMapper::toProductDto)
                 .collect(Collectors.toList());
 
@@ -50,6 +53,32 @@ public class ProductService {
                 .totalPages(products.getTotalPages())
                 .last(products.isLast())
                 .build();
+    }
+
+    private Specification<Product> buildProductSpec(Long categoryId, String search,
+                                                    BigDecimal minPrice, BigDecimal maxPrice) {
+        return (root, query, cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            predicates.add(cb.isTrue(root.get("isActive")));
+            if (categoryId != null) {
+                predicates.add(cb.equal(root.get("category").get("id"), categoryId));
+            }
+            if (search != null && !search.isBlank()) {
+                String like = "%" + search.toLowerCase() + "%";
+                predicates.add(cb.or(
+                        cb.like(cb.lower(root.get("name")), like),
+                        cb.like(cb.lower(cb.coalesce(root.get("description"), "")), like)
+                ));
+            }
+            var effectivePrice = cb.coalesce(root.<BigDecimal>get("discountedPrice"), root.<BigDecimal>get("price"));
+            if (minPrice != null) {
+                predicates.add(cb.greaterThanOrEqualTo(effectivePrice, minPrice));
+            }
+            if (maxPrice != null) {
+                predicates.add(cb.lessThanOrEqualTo(effectivePrice, maxPrice));
+            }
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
     }
 
     @Transactional(readOnly = true)
@@ -69,7 +98,20 @@ public class ProductService {
 
     @Transactional(readOnly = true)
     public List<ProductDto> getFeaturedProducts() {
-        return productRepository.findByIsFeaturedTrueAndIsActiveTrue().stream()
+        List<Product> featured = productRepository.findByIsFeaturedTrueAndIsActiveTrue();
+        if (featured.size() < 8) {
+            Pageable topRecent = PageRequest.of(0, 8, Sort.by(Sort.Direction.DESC, "createdAt"));
+            List<Product> recent = productRepository.findByIsActiveTrue(topRecent).getContent();
+            List<Product> merged = new ArrayList<>(featured);
+            for (Product p : recent) {
+                if (merged.stream().noneMatch(m -> m.getId().equals(p.getId()))) {
+                    merged.add(p);
+                }
+                if (merged.size() >= 8) break;
+            }
+            featured = merged;
+        }
+        return featured.stream()
                 .map(EntityMapper::toProductDto)
                 .collect(Collectors.toList());
     }

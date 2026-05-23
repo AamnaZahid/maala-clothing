@@ -1,5 +1,6 @@
 import { formatPrice } from '../../utils/formatPrice';
 import { formatPhoneDisplay } from '../../utils/formatPhone';
+import { asset } from '../../utils/assetUrl';
 
 export function PackingSlip({ order }) {
   if (!order) return null;
@@ -9,7 +10,7 @@ export function PackingSlip({ order }) {
       <div className="mx-auto max-w-[210mm] bg-white p-8 text-black">
         <header className="mb-8 flex items-start justify-between border-b-2 border-[#6B1D3A] pb-6">
           <div className="flex items-center gap-4">
-            <img src="/logo.svg" alt="Maala Clothing" className="h-16 w-16" />
+            <img src={asset('/logo.svg')} alt="Maala Clothing" className="h-16 w-16" />
             <div>
               <h1 className="font-display text-2xl font-bold text-[#4F1529]">Maala Clothing</h1>
               <p className="text-sm text-gray-600">Mian Channu, Pakistan</p>

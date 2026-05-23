@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { ShoppingBag, Sparkles } from 'lucide-react';
 import { formatPrice } from '../../utils/formatPrice';
+import { asset } from '../../utils/assetUrl';
 
 export function ProductCard({ product, onAddToCart }) {
   const price = product.discountedPrice || product.effectivePrice || product.price;
@@ -14,7 +15,7 @@ export function ProductCard({ product, onAddToCart }) {
       <Link to={`/products/${product.id}`} className="block">
         <div className="relative aspect-square overflow-hidden bg-[#F3EBE4]">
           <img
-            src={product.imageUrls?.[0] || '/logo.svg'}
+            src={asset(product.imageUrls?.[0]) || asset('/logo.svg')}
             alt={product.name}
             className="h-full w-full object-cover transition duration-500 group-hover:scale-110"
             loading="lazy"

@@ -50,8 +50,10 @@ export function Footer({ settings }) {
           </div>
         </div>
       </div>
-      <div className="border-t border-[#C9A962]/10 py-5 text-center text-xs text-[#E8D5A8]/50">
-        © {new Date().getFullYear()} {shopName}. All rights reserved.
+      <div className="flex flex-col items-center justify-center gap-2 border-t border-[#C9A962]/10 py-5 text-xs text-[#E8D5A8]/50 sm:flex-row sm:gap-4">
+        <span>© {new Date().getFullYear()} {shopName}. All rights reserved.</span>
+        <span className="hidden sm:inline">·</span>
+        <Link to="/login" className="hover:text-[#C9A962]">Admin Login</Link>
       </div>
     </footer>
   );

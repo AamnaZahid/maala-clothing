@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { asset } from '../../utils/assetUrl';
 
 export function Logo({ shopName = 'Maala Clothing', size = 'md', showTagline = false }) {
   const sizes = {
@@ -11,7 +12,7 @@ export function Logo({ shopName = 'Maala Clothing', size = 'md', showTagline = f
   return (
     <Link to="/" className="group flex items-center gap-3">
       <img
-        src="/logo.svg"
+        src={asset('/logo.svg')}
         alt={shopName}
         className={`${s.img} shrink-0 transition group-hover:scale-105`}
       />

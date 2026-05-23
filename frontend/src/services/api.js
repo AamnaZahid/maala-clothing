@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { loginPath } from '../utils/assetUrl';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8081';
 
@@ -38,11 +39,11 @@ api.interceptors.response.use(
           localStorage.removeItem('refreshToken');
           localStorage.removeItem('user');
           if (!window.location.pathname.includes('/login')) {
-            window.location.href = '/login';
+            window.location.href = loginPath();
           }
         }
       } else if (!window.location.pathname.includes('/login')) {
-        window.location.href = '/login';
+        window.location.href = loginPath();
       }
     }
     return Promise.reject(error);
@@ -52,6 +53,9 @@ api.interceptors.response.use(
 export default api;
 
 export function getApiError(error) {
+  if (error.code === 'ERR_NETWORK' || error.message === 'Network Error' || !error.response) {
+    return 'Cannot reach the shop server. It may be sleeping or not deployed yet. Please try again in a minute or contact the shop owner.';
+  }
   const data = error.response?.data;
   if (data?.errors) {
     const messages = Object.values(data.errors).filter(Boolean);

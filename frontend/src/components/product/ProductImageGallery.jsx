@@ -1,8 +1,9 @@
 import { useState } from 'react';
+import { asset } from '../../utils/assetUrl';
 
 export function ProductImageGallery({ images = [] }) {
   const [selected, setSelected] = useState(0);
-  const displayImages = images.length > 0 ? images : ['https://placehold.co/600x600/fce7f3/e11d48?text=Product'];
+  const displayImages = (images.length > 0 ? images : ['https://placehold.co/600x600/fce7f3/e11d48?text=Product']).map(asset);
 
   return (
     <div>

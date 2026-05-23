@@ -74,12 +74,20 @@ export function Navbar({ shopName = 'Maala Clothing' }) {
             </button>
 
             {user ? (
-              <Link to={isAdmin ? '/admin' : '/products'} className="hidden rounded-full p-2.5 hover:bg-[#F3EBE4] sm:block">
-                <User className="h-5 w-5 text-[#4F1529]" />
+              <Link
+                to={isAdmin ? '/admin' : '/products'}
+                className="inline-flex items-center gap-1.5 rounded-full bg-[#6B1D3A]/10 px-3 py-2 text-xs font-medium text-[#6B1D3A] hover:bg-[#6B1D3A]/20 sm:px-4 sm:text-sm"
+              >
+                <User className="h-4 w-4" />
+                <span className="hidden sm:inline">{isAdmin ? 'Admin' : 'Account'}</span>
               </Link>
             ) : (
-              <Link to="/login" className="hidden rounded-full px-4 py-2 text-sm font-medium text-[#6B1D3A] hover:bg-[#F3EBE4] sm:block">
-                Login
+              <Link
+                to="/login"
+                className="inline-flex items-center gap-1.5 rounded-full bg-[#6B1D3A] px-3 py-2 text-xs font-medium text-white shadow-sm transition hover:bg-[#4F1529] sm:px-4 sm:text-sm"
+              >
+                <User className="h-4 w-4" />
+                <span className="hidden sm:inline">Login</span>
               </Link>
             )}
 

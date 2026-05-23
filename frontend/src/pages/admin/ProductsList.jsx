@@ -4,6 +4,7 @@ import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { adminService } from '../../services/settingsService';
 import { formatPrice } from '../../utils/formatPrice';
+import { asset } from '../../utils/assetUrl';
 import { LoadingSkeleton } from '../../components/ui/LoadingSkeleton';
 import { Button } from '../../components/ui/Button';
 import { Modal } from '../../components/ui/Modal';
@@ -59,7 +60,7 @@ export default function ProductsList() {
                 {(data?.content || []).map((p) => (
                   <tr key={p.id} className="border-t">
                     <td className="px-4 py-3">
-                      <img src={p.imageUrls?.[0]} alt="" className="h-10 w-10 rounded object-cover" />
+                      <img src={asset(p.imageUrls?.[0])} alt="" className="h-10 w-10 rounded object-cover" />
                     </td>
                     <td className="px-4 py-3 font-medium">{p.name}</td>
                     <td className="px-4 py-3">{p.categoryName}</td>

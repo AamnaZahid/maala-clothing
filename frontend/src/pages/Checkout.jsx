@@ -14,6 +14,7 @@ import { Input } from '../components/ui/Input';
 import { CitySearchSelect } from '../components/ui/CitySearchSelect';
 import { Button } from '../components/ui/Button';
 import { formatPrice } from '../utils/formatPrice';
+import { asset } from '../utils/assetUrl';
 import { getApiError } from '../services/api';
 
 const step1Schema = z.object({
@@ -169,7 +170,7 @@ export default function Checkout() {
           <div className="space-y-3 border-b pb-4">
             {items.map((item, i) => (
               <div key={i} className="flex gap-3">
-                <img src={item.imageUrl} alt="" className="h-16 w-16 rounded object-cover" />
+                <img src={asset(item.imageUrl)} alt="" className="h-16 w-16 rounded object-cover" />
                 <div className="flex-1">
                   <p className="text-sm font-medium">{item.name}</p>
                   <p className="text-xs text-gray-500">{item.size} | {item.color} × {item.quantity}</p>

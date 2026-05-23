@@ -8,6 +8,7 @@ import { LoadingSkeleton } from '../components/ui/LoadingSkeleton';
 import { Button } from '../components/ui/Button';
 import toast from 'react-hot-toast';
 import { useCart } from '../context/CartContext';
+import { asset } from '../utils/assetUrl';
 
 export default function Home() {
   const { addItem } = useCart();
@@ -17,9 +18,10 @@ export default function Home() {
     queryFn: settingsService.getPublicSettings,
   });
 
-  const { data: featured, isLoading: featuredLoading } = useQuery({
+  const { data: featured, isLoading: featuredLoading, isError: featuredError } = useQuery({
     queryKey: ['featured'],
     queryFn: productService.getFeatured,
+    retry: 0,
   });
 
   const { data: categories, isLoading: catLoading } = useQuery({
@@ -41,11 +43,16 @@ export default function Home() {
 
   return (
     <div className="texture-bg">
+      {featuredError && (
+        <div className="border-b border-amber-300 bg-amber-50 px-4 py-3 text-center text-sm text-amber-900">
+          Shop catalog is loading slowly — our server may be waking up. Please refresh in a minute. If this keeps happening, the shop owner needs to start the backend.
+        </div>
+      )}
       {/* Hero */}
       <section className="gradient-hero relative overflow-hidden px-4 py-16 md:py-28">
         <div className="absolute inset-0 opacity-20">
           <img
-            src="/catalog/hero.jpg"
+            src={asset('/catalog/hero.jpg')}
             alt="Asian lawn and kurta collection"
             className="h-full w-full object-cover"
           />
@@ -57,7 +64,7 @@ export default function Home() {
             <MapPin className="h-4 w-4" /> Mian Channu · Delivering across Pakistan
           </div>
 
-          <img src="/logo.svg" alt={shopName} className="mx-auto mb-6 h-20 w-20 md:mx-0" />
+          <img src={asset('/logo.svg')} alt={shopName} className="mx-auto mb-6 h-20 w-20 md:mx-0" />
 
           <div className="max-w-xl">
             <p className="font-display text-sm font-medium uppercase tracking-[0.3em] text-[#C9A962]">{shopName}</p>

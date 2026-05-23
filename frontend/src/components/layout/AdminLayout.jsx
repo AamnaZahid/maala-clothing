@@ -4,6 +4,7 @@ import {
 } from 'lucide-react';
 import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import { loginPath } from '../../utils/assetUrl';
 
 const navItems = [
   { to: '/admin', icon: LayoutDashboard, label: 'Dashboard', end: true },
@@ -29,7 +30,7 @@ export function AdminLayout() {
 
   const handleLogout = async () => {
     await logout();
-    window.location.href = '/login';
+    window.location.href = loginPath();
   };
 
   return (

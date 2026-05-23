@@ -6,6 +6,7 @@ import toast from 'react-hot-toast';
 import { adminService } from '../../services/settingsService';
 import { formatPrice } from '../../utils/formatPrice';
 import { formatPhoneDisplay, whatsAppDigits } from '../../utils/formatPhone';
+import { asset } from '../../utils/assetUrl';
 import { OrderStatusBadge } from '../../components/order/OrderStatusBadge';
 import { PackingSlip } from '../../components/order/PackingSlip';
 import { LoadingSkeleton } from '../../components/ui/LoadingSkeleton';
@@ -98,8 +99,8 @@ export default function OrderDetail() {
             <p className="text-sm"><span className="text-gray-500">Method:</span> {order.paymentMethod}</p>
             <p className="text-sm"><span className="text-gray-500">Transaction ID:</span> {order.paymentTransactionId}</p>
             {order.paymentScreenshotUrl && (
-              <a href={order.paymentScreenshotUrl} target="_blank" rel="noreferrer">
-                <img src={order.paymentScreenshotUrl} alt="Payment" className="mt-3 h-24 rounded border object-cover" />
+              <a href={asset(order.paymentScreenshotUrl)} target="_blank" rel="noreferrer">
+                <img src={asset(order.paymentScreenshotUrl)} alt="Payment" className="mt-3 h-24 rounded border object-cover" />
               </a>
             )}
           </div>
@@ -110,7 +111,7 @@ export default function OrderDetail() {
           <div className="space-y-3">
             {order.items?.map((item) => (
               <div key={item.id} className="flex gap-3 border-b pb-3">
-                <img src={item.productImageUrl} alt="" className="h-16 w-16 rounded object-cover" />
+                <img src={asset(item.productImageUrl)} alt="" className="h-16 w-16 rounded object-cover" />
                 <div className="flex-1">
                   <p className="font-medium">{item.productName}</p>
                   <p className="text-xs text-gray-500">{item.size} | {item.color} × {item.quantity}</p>

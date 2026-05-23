@@ -1,6 +1,7 @@
 import { Minus, Plus, Trash2 } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import { formatPrice } from '../../utils/formatPrice';
+import { asset } from '../../utils/assetUrl';
 
 export function CartItem({ item, index }) {
   const { updateQuantity, removeItem } = useCart();
@@ -8,7 +9,7 @@ export function CartItem({ item, index }) {
   return (
     <div className="mb-4 flex gap-3 rounded-lg border p-3">
       <img
-        src={item.imageUrl || 'https://placehold.co/80x80'}
+        src={asset(item.imageUrl) || 'https://placehold.co/80x80'}
         alt={item.name}
         className="h-20 w-20 shrink-0 rounded-lg object-cover"
       />

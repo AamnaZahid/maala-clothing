@@ -65,8 +65,10 @@ export default function Login() {
   return (
     <div className="flex min-h-[60vh] items-center justify-center px-4 py-12">
       <div className="w-full max-w-md rounded-xl bg-white p-8 shadow-sm">
-        <h1 className="mb-2 text-2xl font-bold">Login</h1>
-        <p className="mb-6 text-sm text-gray-500">Sign in to your Maala Clothing account</p>
+        <h1 className="mb-2 text-2xl font-bold text-[#4F1529]">Login</h1>
+        <p className="mb-6 text-sm text-gray-500">
+          Sign in to your Maala Clothing account or as the shop admin.
+        </p>
 
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <Input label="Email" type="email" {...form.register('email')} error={form.formState.errors.email?.message} />
